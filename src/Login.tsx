@@ -8,7 +8,7 @@ import { TouchableOpacity } from 'react-native'; // Importando o TouchableOpacit
 export default function Login( { navigation } ) {
     return (
         <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            <Box p={5} flex={1}>
+            <Box p={5} flex={1} bg={"white"}>
                 <Text  textAlign="center" mt="15%" fontSize="48" fontFamily={'heading'}>
                     Summitt
                 </Text>

@@ -1,8 +1,8 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { Image, Text, View } from "react-native";
-import Location from "./assets/Location.svg";
+import { Image, Text, View, StatusBar } from "react-native";
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import Events from "./Events";
 import Highlights from "./Highlights";
@@ -13,10 +13,10 @@ const Tab = createMaterialTopTabNavigator();
 export default function Screen() {
     return (
         <NavigationContainer independent={true}>
-            <View style={{ flex: 1 , backgroundColor: 'white' }}>
+            <View style={{ flex: 1 , backgroundColor: 'white'  }}>
                 {/* Cabeçalho */}
                 <View style={{ height: 100, backgroundColor: 'white', padding: 15 }}>
-                    <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <View style={{ flexDirection: "row", alignItems: "center" ,}}>
                         <Image
                             source={require("./assets/conta.png")}
                             style={{ width: 62, height: 62, borderRadius: 30, marginRight: 20 }}
@@ -27,18 +27,50 @@ export default function Screen() {
                 {/* Tab Navigation */}
                 <Tab.Navigator  
                     initialRouteName="Screen"
-                    screenOptions={{
+                    screenOptions={({ route }) => ({
                         tabBarActiveTintColor: 'black',
                         tabBarInactiveTintColor: 'gray',
-                        tabBarLabelStyle: { fontSize: 16  },
-                        tabBarStyle: { backgroundColor: 'white', height: 50, margin: 10,elevation: 0 },
-                        tabBarIndicatorStyle: { backgroundColor: '#D9D9D9', height: '100%' ,borderRadius: 10}, // Indicador de botão cinza
-                    }}
+                        tabBarLabelStyle: { fontSize: 16 },
+                        tabBarStyle: { backgroundColor: 'white', height:60, margin: 10, elevation: 0, justifyContent: 'center', },
+                        tabBarIndicatorStyle: { backgroundColor: '#D9D9D9', height: '100%', borderRadius: 10 },
+                    })}
                 >
-                    <Tab.Screen name="Live" component={Live}
+                    <Tab.Screen 
+                        name="Events" 
+                        component={Events} 
+                        options={{
+                            tabBarLabel: ({ color }) => (
+                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                    <Icon name="map-marker-alt" size={20} color={color} />
+                                    <Text style={{ marginLeft: 5, color ,fontSize: 18 }}>Eventos</Text>
+                                </View>
+                            ),
+                        }}
                     />
-                    <Tab.Screen name="Events" component={Events} />
-                    <Tab.Screen name="Highlights" component={Highlights} />
+                        <Tab.Screen 
+                            name="Highlights" 
+                            component={Highlights} 
+                            options={{
+                                tabBarLabel: ({ color }) => (
+                                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                        <Icon name="star" size={18} color={"#471CA8"} />
+                                        <Text style={{ marginLeft: 5, color ,fontSize: 18  }}>Destaques</Text>
+                                    </View>
+                                ),
+                            }}
+                        />
+                    <Tab.Screen 
+                        name="Live" 
+                        component={Live}
+                        options={{
+                            tabBarLabel: ({ color }) => (
+                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                    <Icon name="play-circle" size={20} color={"#D1105A"} />
+                                    <Text style={{ marginLeft: 5, color,fontSize: 18 }}>Ao Vivo</Text>
+                                </View>
+                            ),
+                        }}
+                    />
                 </Tab.Navigator>
             </View>
         </NavigationContainer>
