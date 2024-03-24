@@ -15,6 +15,8 @@ export default function Events() {
                         <CardEvent />
                         <CardEvent />
                         <CardEvent />
+                        <CardEvent />
+                        <CardEvent />
                     </View>
                 </KeyboardAwareScrollView>
             </Box>
