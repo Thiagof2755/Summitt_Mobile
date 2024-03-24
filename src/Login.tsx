@@ -9,7 +9,7 @@ export default function Login( { navigation } ) {
     return (
         <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }}>
             <Box p={5} flex={1}>
-                <Text fontWeight="bold" textAlign="center" mt="15%" fontSize="48" fontFamily={'heading'}>
+                <Text  textAlign="center" mt="15%" fontSize="48" fontFamily={'heading'}>
                     Summitt
                 </Text>
                 <VStack space={5} w="100%" mt="30%">
@@ -26,7 +26,8 @@ export default function Login( { navigation } ) {
                                 type='password' />
 
                         </FormControl>
-                        <Button mt={5} w="100%" size="lg" bg="Black">
+                        <Button mt={5} w="100%" size="lg" bg="Black"
+                        onPress={() => navigation.navigate('Screen')}>
                             Entrar
                         </Button>
                         <Link alignSelf="center" href="/criar" mt={5} _text={{ color: "Black" }}>

@@ -7,7 +7,7 @@ export default function App() {
   return (
     <NativeBaseProvider theme={theme}>
       <StatusBar backgroundColor="auto"/>
-      <Routes />
+      <Routes/>
     </NativeBaseProvider>
   );
 }

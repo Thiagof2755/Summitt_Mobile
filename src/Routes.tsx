@@ -5,6 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import Register from "./Register";
 import Login from "./Login";
+import Screen from "./screens";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -19,6 +20,8 @@ const AuthStack = () => (
             name="Register"
             component={Register}
         />
+
+
     </Stack.Navigator>
 );
 
@@ -29,6 +32,8 @@ export default function Routes() {
                 <Tab.Screen name="Auth" component={AuthStack}
                     options={{ tabBarStyle: { display: 'none' }, headerShown: false }}
                 />
+                <Tab.Screen name="Screen" component={Screen} 
+                    options={{ tabBarStyle: { display: 'none' }, headerShown: false }}/>
             </Tab.Navigator>
         </NavigationContainer>
     );
