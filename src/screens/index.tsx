@@ -8,13 +8,13 @@ import Events from "./Events";
 import Highlights from "./Highlights";
 import Live from "./Live";
 
-const Tab = createMaterialTopTabNavigator();
-
+const Tab = createMaterialTopTabNavigator();    
 export default function Screen() {
     return (
         <NavigationContainer independent={true}>
-            <View style={{ flex: 1 , backgroundColor: 'white'  }}>
-                {/* Cabeçalho */}
+            <View style={{ flex: 2 , backgroundColor: 'white'  }}>
+                {/* Cabeçalho
+                onde vai ficar os menus de icones e perfil logado */}
                 <View style={{ height: 100, backgroundColor: 'white', padding: 15 }}>
                     <View style={{ flexDirection: "row", alignItems: "center" ,}}>
                         <Image
@@ -47,26 +47,26 @@ export default function Screen() {
                             ),
                         }}
                     />
-                        <Tab.Screen 
-                            name="Highlights" 
-                            component={Highlights} 
-                            options={{
-                                tabBarLabel: ({ color }) => (
-                                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                        <Icon name="star" size={18} color={"#471CA8"} />
-                                        <Text style={{ marginLeft: 5, color ,fontSize: 18  }}>Destaques</Text>
-                                    </View>
-                                ),
-                            }}
-                        />
                     <Tab.Screen 
-                        name="Live" 
+                        name="Highlights" 
+                        component={Highlights} 
+                        options={{
+                            tabBarLabel: ({ color }) => (
+                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                    <Icon name="star" size={18} color={"#471CA8"} />
+                                    <Text style={{ marginLeft: 5, color ,fontSize: 18  }}>Destaques</Text>
+                                </View>
+                            ),
+                        }}
+                    />
+                    <Tab.Screen
+                        name="Live"
                         component={Live}
                         options={{
                             tabBarLabel: ({ color }) => (
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Icon name="play-circle" size={20} color={"#D1105A"} />
-                                    <Text style={{ marginLeft: 5, color,fontSize: 18 }}>Ao Vivo</Text>
+                                    <Icon name="video" size={18} color={"#471CA8"} />
+                                    <Text style={{ marginLeft: 5, color ,fontSize: 18  }}>Live</Text>
                                 </View>
                             ),
                         }}
