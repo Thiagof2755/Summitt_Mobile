@@ -1,15 +1,41 @@
-import React from 'react';
-import { Text, Box, FormControl, Button, Link } from 'native-base';
+import React, { useState } from 'react';
+import { Text, Box, FormControl, Button, Link, VStack } from 'native-base';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { VStack } from 'native-base';
+import { TouchableOpacity, Alert } from 'react-native';
+import axios from 'axios';
 import { Title } from './components/Title';
-import InputLabel from './components/InputLabel'; // Corrigida a importação do InputLabel
-import { TouchableOpacity } from 'react-native'; // Importando o TouchableOpacity para criar um link
-export default function Login( { navigation } ) {
+import InputLabel from './components/InputLabel'; 
+
+export default function Login({ navigation }) {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+
+    const handleLogin = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.post('http://3.97.199.173:8080/summit/login', {
+                username: email,
+                password: password
+            });
+            if (response.status === 200) {
+                Alert.alert('Login Successful');
+                navigation.navigate('Screen'); // Replace 'Screen' with the actual screen you want to navigate to
+            } else {
+                Alert.alert('Login Failed', 'Invalid credentials');
+            }
+        } catch (error) {
+            Alert.alert('Login Error', 'Email ou senha errados');
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }}>
             <Box p={5} flex={1} bg={"white"}>
-                <Text  textAlign="center" mt="15%" fontSize="48" fontFamily={'heading'}>
+                <Text textAlign="center" mt="15%" fontSize="48" fontFamily={'heading'}>
                     Summitt
                 </Text>
                 <VStack space={5} w="100%" mt="30%">
@@ -18,16 +44,19 @@ export default function Login( { navigation } ) {
                         <InputLabel
                             label="E-mail"
                             placeholder="Insira seu endereço de e-mail"
-                            type='text' />
+                            type='text'
+                            value={email}
+                            onChangeText={setEmail} />
                         <FormControl mt={3}>
                             <InputLabel
                                 label="Senha"
                                 placeholder="Insira sua senha"
-                                type='password' />
-
+                                type='password'
+                                value={password}
+                                onChangeText={setPassword} />
                         </FormControl>
                         <Button mt={5} w="100%" size="lg" bg="Black"
-                        onPress={() => navigation.navigate('Screen')}>
+                                onPress={handleLogin} isLoading={loading}>
                             Entrar
                         </Button>
                         <Link alignSelf="center" href="/criar" mt={5} _text={{ color: "Black" }}>
@@ -35,8 +64,7 @@ export default function Login( { navigation } ) {
                         </Link>
                     </Box>
                     <Box w="100%" flexDirection="row" justifyContent="center" mt={8}>
-                        <Text
-                            color={"gray.500"}>Ainda não tem cadastro? </Text>
+                        <Text color={"gray.500"}>Ainda não tem cadastro? </Text>
                         <TouchableOpacity onPress={() => navigation.navigate('Register')}>
                             <Text color="blue.500">
                                 Faça seu cadastro!

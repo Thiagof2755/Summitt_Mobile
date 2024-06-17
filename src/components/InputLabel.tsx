@@ -10,15 +10,14 @@ interface InputLabelProps {
     errorMessage?: string;
     customStyles?: any;
     width?: number | string; // Adicionando a propriedade width
+    value: string; // Adicionando a propriedade value
+    onChangeText: (text: string) => void; // Adicionando a propriedade onChangeText
 }
 
-const InputLabel: React.FC<InputLabelProps> = ({ type, placeholder, label, errorMessage, customStyles, ...rest }) => {
+const InputLabel: React.FC<InputLabelProps> = ({ type, placeholder, label, errorMessage, customStyles, value, onChangeText, ...rest }) => {
     return (
-        <FormControl mt={0}
-        w="auto"
-        {...customStyles}
-        >
-            <FormControl.Label>{label}</FormControl.Label>
+        <FormControl mt={0} w="auto" {...customStyles}>
+            {label && <FormControl.Label>{label}</FormControl.Label>}
             <Input
                 placeholder={placeholder}
                 borderColor="Black"
@@ -27,11 +26,11 @@ const InputLabel: React.FC<InputLabelProps> = ({ type, placeholder, label, error
                 w={rest.width ? rest.width : "100%"}
                 _focus={{ borderColor: "Black", bg: "white" }}
                 type={type} // Usando o tipo restrito
+                value={value} // Adicionando a propriedade value
+                onChangeText={onChangeText} // Adicionando a propriedade onChangeText
                 {...rest}
-                
             />
             {errorMessage && <Text color="red.500">{errorMessage}</Text>}
-            
         </FormControl>
     );
 }

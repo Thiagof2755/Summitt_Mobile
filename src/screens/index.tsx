@@ -1,32 +1,39 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { Image, Text, View, StatusBar } from "react-native";
+import { Image, Text, View, StatusBar, TouchableOpacity } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import Events from "./Events";
 import Highlights from "./Highlights";
 import Live from "./Live";
 
-const Tab = createMaterialTopTabNavigator();    
-export default function Screen() {
+const Tab = createMaterialTopTabNavigator();
+
+export default function Screen({ navigation }) {
+    const handleLogout = () => {
+        navigation.navigate('Login'); // Navega de volta para a tela de login
+    };
+
     return (
         <NavigationContainer independent={true}>
             <View style={{ flex: 2 , backgroundColor: 'white'  }}>
-                {/* Cabeçalho
-                onde vai ficar os menus de icones e perfil logado */}
-                <View style={{ height: 100, backgroundColor: 'white', padding: 15 }}>
-                    <View style={{ flexDirection: "row", alignItems: "center" ,}}>
+                {/* Cabeçalho */}
+                <View style={{ height: 100, backgroundColor: 'white', padding: 15, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <View style={{ flexDirection: "row", alignItems: "center" }}>
                         <Image
                             source={require("./assets/conta.png")}
                             style={{ width: 62, height: 62, borderRadius: 30, marginRight: 20 }}
                         />
                         <Text style={{ fontSize: 24 }}>Thiago Alves</Text>
                     </View>
+                    <TouchableOpacity onPress={handleLogout} style={{ padding: 10 }}>
+                        <Icon name="sign-out-alt" size={24} color="black" />
+                    </TouchableOpacity>
                 </View>
                 {/* Tab Navigation */}
                 <Tab.Navigator  
-                    initialRouteName="Screen"
+                    initialRouteName="Events"
                     screenOptions={({ route }) => ({
                         tabBarActiveTintColor: 'black',
                         tabBarInactiveTintColor: 'gray',
