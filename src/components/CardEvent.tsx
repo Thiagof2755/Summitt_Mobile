@@ -1,10 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Animated, TouchableWithoutFeedback, Text, Image, Modal, TouchableOpacity, ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import moment from 'moment';
 
-export default function CardEvent({ imageSource, eventName, eventDate, eventLocation, eventDetails, eventStatus, eventAddress }) {
+// Simula um JSON com valores iniciais de confirmações
+const initialConfirmations = {
+    24: 5,
+    25: 3,
+    40: 10,
+    45: 7
+};
+
+export default function CardEvent({ eventId, imageSource, eventName, eventDate, eventLocation, eventDetails, eventStatus, eventAddress }) {
     const [scaleAnimation] = useState(new Animated.Value(1));
     const [isModalVisible, setModalVisible] = useState(false);
+    const [confirmationCount, setConfirmationCount] = useState(0);
+    const [isConfirmed, setIsConfirmed] = useState(false);
+
+    useEffect(() => {
+        if (isModalVisible) {
+            // Inicializa a contagem de confirmações a partir do JSON simulado
+            setConfirmationCount(initialConfirmations[eventId] || 5);
+            setIsConfirmed(false); // Reseta o estado de confirmação
+        }
+    }, [isModalVisible, eventId]);
 
     const handlePressIn = () => {
         Animated.timing(scaleAnimation, {
@@ -26,6 +46,18 @@ export default function CardEvent({ imageSource, eventName, eventDate, eventLoca
         setModalVisible(!isModalVisible);
     };
 
+    const handleConfirmation = () => {
+        if (!isConfirmed) {
+            setConfirmationCount(confirmationCount + 1);
+            setIsConfirmed(true);
+        } else {
+            setConfirmationCount(confirmationCount - 1);
+            setIsConfirmed(false);
+        }
+    };
+
+    const formattedEventDate = moment(eventDate).format('DD/MM/YYYY');
+
     return (
         <View style={styles.container}>
             <TouchableWithoutFeedback 
@@ -40,7 +72,7 @@ export default function CardEvent({ imageSource, eventName, eventDate, eventLoca
                             <Text style={styles.eventName}>{eventName}</Text>
                         </View>
                         <View style={styles.locationDate}>
-                            <Text style={styles.date}>{eventDate}</Text>
+                            <Text style={styles.date}>{formattedEventDate}</Text>
                             <Text style={styles.location}>{eventLocation}</Text>
                         </View>
                     </View>
@@ -56,7 +88,7 @@ export default function CardEvent({ imageSource, eventName, eventDate, eventLoca
                 <ScrollView contentContainerStyle={styles.modalContent}>
                     <View style={styles.modalHeader}>
                         <Text style={styles.modalTitle}>{eventName}</Text>
-                        <Text style={styles.modalDate}>{new Date(eventDate).toLocaleDateString()}</Text>
+                        <Text style={styles.modalDate}>{formattedEventDate}</Text>
                     </View>
                     <View style={styles.modalImageWrapper}>
                         <Image source={{ uri: imageSource }} style={styles.modalImage} />
@@ -69,6 +101,14 @@ export default function CardEvent({ imageSource, eventName, eventDate, eventLoca
                         <Text style={styles.modalText}><Text style={styles.modalTextBold}>Endereço:</Text> {eventAddress?.street}, {eventAddress?.number}, {eventAddress?.district}</Text>
                         <Text style={styles.modalText}><Text style={styles.modalTextBold}>Complemento:</Text> {eventAddress?.complement}</Text>
                         <Text style={styles.modalText}><Text style={styles.modalTextBold}>CEP:</Text> {eventAddress?.zipCode}</Text>
+                        
+                        {/* Adiciona o botão "Eu Vou" com ícone e opção de desistir */}
+                        <TouchableOpacity onPress={handleConfirmation} style={[styles.confirmButton, isConfirmed ? styles.confirmed : styles.notConfirmed]}>
+                            <Icon name={isConfirmed ? "check-circle" : "plus-circle"} size={20} color="#fff" />
+                            <Text style={styles.confirmButtonText}>{isConfirmed ? "Desistir" : "Eu Vou"}</Text>
+                        </TouchableOpacity>
+                        <Text style={styles.confirmationCount}>Confirmados: {confirmationCount}</Text>
+                        
                         <TouchableOpacity onPress={toggleModal} style={styles.closeButton}>
                             <Text style={styles.closeButtonText}>Sair</Text>
                         </TouchableOpacity>
@@ -80,6 +120,7 @@ export default function CardEvent({ imageSource, eventName, eventDate, eventLoca
 }
 
 CardEvent.propTypes = {
+    eventId: PropTypes.number.isRequired,
     imageSource: PropTypes.string.isRequired,
     eventName: PropTypes.string.isRequired,
     eventDate: PropTypes.string.isRequired,
@@ -209,5 +250,31 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
         padding: 5,
+    },
+    confirmButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 20,
+        padding: 10,
+        borderRadius: 5,
+    },
+    confirmed: {
+        backgroundColor: '#28a745',
+    },
+    notConfirmed: {
+        backgroundColor: '#007bff',
+    },
+    confirmButtonText: {
+        color: 'white',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        padding: 5,
+        marginLeft: 5,
+    },
+    confirmationCount: {
+        marginTop: 10,
+        fontSize: 16,
+        color: '#333',
+        textAlign: 'center',
     },
 });
