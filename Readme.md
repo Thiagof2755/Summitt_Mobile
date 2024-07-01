@@ -21,7 +21,7 @@ Para instalar e executar o Summit localmente, siga os passos abaixo:
 
 ```bash
 # Clone o repositório
-git clone https://github.com/seu-usuario/summit.git
+git clone https://github.com/Thiagof2755/Summitt_Mobile.git
 
 # Entre no diretório do projeto
 cd summit
