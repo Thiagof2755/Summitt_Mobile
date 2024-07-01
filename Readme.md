@@ -101,9 +101,9 @@ Aqui você pode adicionar algumas imagens ou GIFs do seu projeto para demonstrar
 Se você quiser contribuir para o Summit, siga os passos abaixo:
 
 1. Faça um fork do projeto.
-2. Crie uma nova branch (`git checkout -b feature/nome-da-feature`).
-3. Commit suas mudanças (`git commit -m 'Adiciona nova feature'`).
-4. Faça o push para a branch (`git push origin feature/nome-da-feature`).
+2. Crie uma nova branch. 
+3. Commit suas mudanças. 
+4. Faça o push para a branch.
 5. Abra um Pull Request.
 
 ## Licença
